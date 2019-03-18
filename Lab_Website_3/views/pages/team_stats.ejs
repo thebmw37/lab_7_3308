@@ -1,0 +1,102 @@
+<% include ../partials/header %>
+<% include ../partials/menu %>
+	<div class="container">
+		<br>
+		<div class="jumbotron">
+		  <h1 class="display-4">Fall 2018 Stats</h1>
+		  <p class="lead">Detailed information on how the Buffs are doing in the 2018 Football Season!</p>
+		</div>
+		
+		<table class="table table-bordered" id="stats_table">
+			<tr>
+				<th class="align-bottom" rowspan="2">Game Date</th>
+				<th class="align-bottom"rowspan="2">Opposing Team Name</th>
+				<th class="text-center" colspan="2">Score</th>
+				<th class="align-bottom" rowspan="2">Winner</th>
+			</tr>
+			<tr>
+				<th>Home Score</th>
+				<th>Opp. Score</th>
+			</tr>
+			<!-- TODO: Iterate over the Football_table data here 
+						1. Display the information for each row (date, name, home score, visitor score)
+						2. Determine who the winner is and display it in the final column
+
+						If you're not sure how the logic should work here, review the code you add to the client-side javascript
+						that ran onload for Lab 5.  We are doing the same kind of operations we had in Lab 5, but we are instead having
+						everything handled via server-side scriptes
+			-->
+			<%var count = 0%>
+			<%for(var item in data) { %>
+				<%count++%>
+			<%}%>
+			<%var i = 2%>
+			<%for(var game in data) { %>
+				<% var scrip1 = '<script>document.getElementById("stats_table").insertRow('+ i + ')</script>'; %>
+				<%- scrip1 %>
+				<% var scrip2 = '<script>document.getElementById("stats_table").rows['+ i +'].insertCell(0)</script>'; %>
+                                <%- scrip2 %>
+				<% var scrip3 = '<script>document.getElementById("stats_table").rows['+ i +'].insertCell(1)</script>'; %>
+                                <%- scrip3 %>
+				<% var scrip4 = '<script>document.getElementById("stats_table").rows['+ i +'].insertCell(2)</script>'; %>
+                                <%- scrip4 %>
+				<% var scrip5 = '<script>document.getElementById("stats_table").rows['+ i +'].insertCell(3)</script>'; %>
+                                <%- scrip5 %>
+				<% var scrip6 = '<script>document.getElementById("stats_table").rows['+ i +'].insertCell(4)</script>'; %>
+                                <%- scrip6 %>
+				<% var scrip7 = '<script>document.getElementById("stats_table").rows['+ i +'].cells[0].innerHTML = "'+ String(data[game].game_date).substring(0,16) +'"</script>'; %>
+				<%- scrip7 %>
+				<% var scrip8 = '<script>document.getElementById("stats_table").rows['+ i +'].cells[1].innerHTML = "'+ data[game].visitor_name +'"</script>'; %>
+                                <%- scrip8 %>
+				<% var scrip9 = '<script>document.getElementById("stats_table").rows['+ i +'].cells[2].innerHTML = '+ data[game].home_score +'</script>'; %>
+                                <%- scrip9 %>
+				<% var scrip10 = '<script>document.getElementById("stats_table").rows['+ i +'].cells[3].innerHTML = '+ data[game].visitor_score +'</script>'; %>
+                                <%- scrip10 %>
+
+				<%if(data[game].home_score > data[game].visitor_score) { %>
+					 <% var scrip11 = '<script>document.getElementById("stats_table").rows['+ i +'].cells[4].innerHTML = "W"</script>'; %>
+					 <%- scrip11 %>                                	 
+				<%}%>
+				<%if(data[game].home_score < data[game].visitor_score) {  %>
+					 <% var scrip12 = '<script>document.getElementById("stats_table").rows['+ i +'].cells[4].innerHTML = "L"</script>'; %>
+                                         <%- scrip12 %>
+				<%}%> 
+				<%i++;%>
+			<%}%>
+			
+		</table>
+		<br>
+		<table class="table text-center">
+			<tr>
+				<th>Wins</th>
+				<th>Losses</th>
+			</tr>
+			<tr>
+				<td> <!-- TODO: Display the total number of wins here.  
+							    This value should come from your server.js files query, don't calculate it in this file! -->
+				      <p>
+				         <% if(wins)
+                                            {%>
+                                               
+                                                  <% var script_text = '<script>document.write("' + wins[0].count + '")</script>'; %>
+                                                        <%- script_text %>
+                                                <% }%>
+                                      </p>
+				</td>
+				<td> <!-- TODO: Display the total number of losses here.  
+							    This value should come from your server.js files query, don't calculate it in this file! -->
+					                                      <p>
+                                         <% if(loss)
+                                            {%>
+
+                                                  <% var script_text = '<script>document.write("' + loss[0].count + '")</script>'; %>
+                                                        <%- script_text %>
+                                                <% }%>
+                                      </p>
+
+				</td>
+			</tr>
+		</table>
+		
+	</div>
+<% include ../partials/footer %>

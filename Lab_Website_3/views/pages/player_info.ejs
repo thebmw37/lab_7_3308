@@ -1,0 +1,109 @@
+<% include ../partials/header %>
+<% include ../partials/menu %>
+	<div class="container">
+		<br>
+		<div class="row">
+			<div class="col-4">
+				<div class="card">
+				<!-- TODO: Modify the ejs code below, to conditionally set the image_src to be from our chosen player -->
+				  <%if(typeof data2 !== 'undefined') { %> 
+				  	<%var image_src = data2[0].img_src.substring(0, 200);%>
+				  <%}%>
+				  <%if(typeof data2 === 'undefined') { %>
+					<%var image_src = '../resources/img/helmet.jpg';%>
+				  <%}%>
+				 <img class="card-img-top" id="player_img" src= "<%- image_src %>" alt="Image of Football Player">
+				  <div class="card-body mx-auto">
+					<form class="form"action="/player_info/post" method="get">
+						<select class="custom-select" name="player_choice" onchange="this.form.submit()">
+							 <option selected>Select Player</option>
+							 <!-- TODO: Populate our select with player options
+							 			For each player, set a new option with a value matching the palyer's id, 
+							 			but will display the player's name-->
+
+							 <%if(typeof data !== 'undefined') { %>
+							 	<%for(var player in data) { %>
+							 		<%var scrip1 = '<option value="'+ data[player].id + '">' + data[player].name + '</option>'; %>
+									<%- scrip1%>
+							 	<%}%>
+							 <%}%>
+						</select>
+					</form>
+				  </div>
+				</div>
+			</div>
+			<div class="col-8">
+				<div class="table-responsive">
+					<table class="table">
+						<tr>
+							<!-- TODO: Set Player Information
+							 			If a player has been selected, fill in their information in each of the fields below.
+							 		    You'll need to calculate here the player's average rushing, receiving, and passing yards.-->
+							<th>Year</th>
+							<%if(typeof data2 !== 'undefined') {%>
+								<%var scrip2 = '<td>'+ data2[0].year.substring(0,3) + '</td>';%>
+								<%-scrip2%>
+							<%}%>
+							
+						</tr>
+						<tr>
+							<th>Major</th>
+							<%if(typeof data2 !== 'undefined') {%>
+                                                                <%var scrip2 = '<td>'+ data2[0].major.substring(0,15) + '</td>';%>
+                                                                <%-scrip2%>
+                                                        <%}%>
+						</tr>
+						<tr>
+							<th>Games Played</th>
+							<%if(typeof data3 !== 'undefined') {%>
+                                                                <%var scrip2 = '<td>'+ data3[0].count + '</td>';%>
+                                                                <%-scrip2%>
+                                                        <%}%>
+
+						</tr>
+						<tr>
+							<%if(typeof data2 !== 'undefined') {%>
+                                                                <%var scrip2 = '<td>Passing Yards: '+ data2[0].passing_yards + '</td>';%>
+                                                                <%-scrip2%>
+                                                        <%}%>
+
+							<%if(typeof data2 !== 'undefined') {%>
+								<%var avg_pass = data2[0].passing_yards / data3[0].count;%>
+                                                                <%var scrip2 = '<td>Avg. Passing Yards: '+ avg_pass.toFixed(2) + '</td>';%>
+                                                                <%-scrip2%>
+                                                        <%}%>
+							
+						</tr>
+						<tr>
+							<%if(typeof data2 !== 'undefined') {%>
+                                                                <%var scrip2 = '<td>Rushing Yards: '+ data2[0].rushing_yards + '</td>';%>
+                                                                <%-scrip2%>
+                                                        <%}%>
+
+							<%if(typeof data2 !== 'undefined') {%>
+                                                                <%var avg_rush = data2[0].rushing_yards / data3[0].count;%>
+                                                                <%var scrip2 = '<td>Avg. Rushing Yards: '+ avg_rush.toFixed(2) + '</td>';%>
+                                                                <%-scrip2%>
+                                                        <%}%>
+
+						</tr>
+						<tr>
+							<%if(typeof data2 !== 'undefined') {%>
+                                                                <%var scrip2 = '<td>Receiving Yards: '+ data2[0].receiving_yards + '</td>';%>
+                                                                <%-scrip2%>
+                                                        <%}%>
+							
+                                                        <%if(typeof data2 !== 'undefined') {%>
+                                                                <%var avg_rec = data2[0].receiving_yards / data3[0].count;%>
+                                                                <%var scrip2 = '<td>Avg. Rushing Yards: '+ avg_rec.toFixed(2) + '</td>';%>
+                                                                <%-scrip2%>
+                                                        <%}%>
+
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+  
+<% include ../partials/footer %>
